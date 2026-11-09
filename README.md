@@ -1,82 +1,403 @@
 # Circuit-Repository
 
 This repository aims to act as a general guide to circuit and IC selection. The project culminates in a massive 100+ page document containg circuit types, use cases, and comparisons. Most all circuits are accompanied by a schematic diagram, and implemetation guidelines.
-The circuits are each headed by a overarching header grouping them by use case, in addition, there is a use case table which acts as a tldr for circuit selection. The document's content is largely assisted by anthropic's claude for the compilation and prodcution of the document. The original set of ciruits and classifications can be seen below:
+The circuits are each headed by a overarching header grouping them by use case. The document's content is largely assisted by anthropic's claude for the compilation and prodcution of the document. The full encompasing list includes the following, broken up by category:
 
-1. Changing and regulating DC voltage
 
-Linear: LDO, standard linear regulator (78xx), adjustable regulator (LM317), Zener shunt, TL431 shunt regulator, emitter-follower pass regulator, capacitance multiplier
-Switching (inductive): buck, boost, inverting buck-boost, 4-switch buck-boost, SEPIC, Cuk, Zeta, flyback, forward, push-pull, half bridge, full bridge
-Switching (capacitive): charge pump doubler and inverter, regulated charge pump, Dickson multiplier, Cockcroft-Walton
-Low-noise rails for RF: buck followed by an LDO, ferrite bead with a pi filter, star distribution, a separate AVDD/DVDD split
-References: bandgap, buried Zener, shunt vs. series references
+1. Getting Power onto the Board
+DC barrel jack
+USB-C, 5 V only (CC pull-down resistors)
+USB-C Power Delivery sink (PD trigger IC)
+Micro-USB / USB-B / Mini-USB
+Screw terminals, terminal blocks, and pluggable blocks
+Banana jacks and binding posts
+JST and pin headers (internal power)
+Batteries (cells and holders)
+Power over Ethernet (PoE powered device)
+Bias tee (DC power over coax)
+Automotive 12 V and wide-input rails
+2. Changing and Regulating DC Voltage
+Linear regulators
 
-2. Power control and protection
-Load switch, high-side and low-side MOSFET switch, reverse-polarity protection (diode, P-FET, ideal-diode controller), power ORing and muxing, eFuse and hot-swap, inrush limiting, crowbar, TVS clamp, PTC fuse, supervisor/reset IC, power sequencing, soft-start
+LDO (low-dropout linear regulator)
+Standard linear regulator (78xx / LM1117 class)
+Adjustable linear regulator (LM317)
+Zener shunt regulator
+TL431 programmable shunt regulator
+Emitter-follower pass regulator
+Capacitance multiplier (ripple filter)
+Inductive switching converters
 
-3. Batteries and energy
-Linear Li-ion charger, switching charger, power-path management, fuel gauge, protection IC, supercap charging, energy harvesting (solar, RF)
+Buck (step-down) converter
+Boost (step-up) converter
+Inverting buck-boost
+Four-switch (non-inverting) buck-boost
+SEPIC and Zeta
+Cuk converter
+Flyback (isolated)
+Forward, push-pull, half-bridge, and full-bridge (isolated, higher power)
+Capacitive (inductorless) converters
 
-4. Current sources and sinks
-Resistor plus voltage reference, op-amp with FET current sink, Howland pump, BJT and MOSFET current mirrors (basic, Wilson, cascode), LM334, constant-current LED driver, JFET current source
+Charge pump: inverter and doubler
+Regulated charge pumps and switched-capacitor converters
+Dickson multiplier and Cockcroft-Walton ladder
+Low-noise power for RF and precision circuits
 
-5. Converting current to voltage (and back)
+Buck followed by an LDO (post-regulation)
+Ferrite bead and pi filter on a supply
+Voltage references (series and shunt)
+Power modules (integrated inductor)
+3. Switching, Protecting, and Sequencing Power
+Switching loads on and off
 
-I->V: shunt resistor, TIA, charge amplifier, integrating TIA, log amplifier, current-sense amp (high-side and low-side), Hall sensor, current transformer, Rogowski coil
-V->I: Howland, op-amp plus transistor, OTA, transconductance stage
+Low-side N-MOSFET switch
+High-side P-MOSFET switch (with level shifter)
+Load switch IC
+Reverse polarity and source selection
 
-6. Other signal conversions
-V->F and F->V, PWM to analog (RC filter), ADCs (SAR, sigma-delta, flash, pipeline, dual-slope), DACs (R-2R, resistor string, current-steering, PWM), single-ended to differential (fully differential amp, transformer, balun), logic level shifting (divider, BSS138 bidirectional, translator ICs), op-amp offset and gain scaling
+Series diode reverse-polarity protection
+P-MOSFET reverse-polarity protection
+Ideal diode controller
+Power ORing and power multiplexers
+Overcurrent, surge, and overvoltage
 
-7. Detection and rectification
-Half-wave and full-wave rectifiers, bridge, precision rectifier, peak detector, envelope detector, diode RF power detector, log detector (AD8318 style), RMS detector, AM/FM/phase detectors, sample-and-hold
+Fuses and PTC resettable fuses
+eFuse and hot-swap controller
+TVS diode (transient voltage suppressor)
+Surge stopper and overvoltage protection switch
+Crowbar circuit
+Inrush current limiting
+Supervision and sequencing
 
-8. Baseband amplifiers
+Voltage supervisor / reset IC
+Power sequencing
+4. Batteries and Energy Storage
+Linear Li-ion charger (CC/CV)
+Switching charger and power-path management
+Battery protection IC
+Fuel gauge
+Cell balancing and battery management (BMS)
+Supercapacitor backup
+Energy harvesting
+5. Current Sources and Sinks
+BJT and MOSFET current mirrors
+JFET and depletion-mode MOSFET current source
+IC current sources: LM334, LT3092, LM317
+Constant-current LED drivers
+Electronic load
+Laser diode driver
+6. Converting Signals
+Current to voltage
 
-Op-amp configurations: inverting, non-inverting, buffer, summing, difference, instrumentation amp, integrator, differentiator, PGA, composite amp, bridge amp
-Discrete: common emitter/source, common base/gate, common collector/drain, cascode, differential pair, Darlington, push-pull
-Power amp classes: A, B, AB, C, D
+Shunt resistor
+Current-sense amplifier (high-side and low-side)
+Transimpedance amplifier (TIA)
+Charge amplifier
+Integrating TIA
+Logarithmic amplifier
+Hall-effect current sensor
+Current transformer and Rogowski coil
+Voltage to current
 
-9. RF amplifiers
-LNA (inductive degeneration, common gate, MMIC gain block), driver amp, PA (classes A/AB/C/E/F, Doherty), balanced amp, feedback amp, distributed amp, VGA, limiting amp. Plus biasing: bias tee, active bias, RF choke feed, GaN sequencing.
+Op-amp with MOSFET current sink
+Howland current pump
+OTA (operational transconductance amplifier)
+4-20 mA current loop
+Analog to digital and back
 
-10. Filters
+ADC architectures
+DAC architectures
+Voltage-to-frequency and frequency-to-voltage
+Interfaces between domains
 
-Response types: Butterworth, Chebyshev I and II, elliptic, Bessel, Gaussian
-Passive LC: low-pass, high-pass, band-pass, band-stop (each in pi and T form)
-Active: RC, Sallen-Key, multiple feedback, state variable, biquad, Twin-T notch, all-pass, gyrator
-RF and microwave: stepped impedance, stub, coupled-line, hairpin, interdigital, combline, cavity, waveguide
-Resonator-based: crystal, ceramic, SAW, BAW/FBAR, LTCC
-Multiplexers: diplexer, duplexer, triplexer
-EMI: ferrite bead, common-mode choke, feedthrough cap, pi and T EMI filters
-Other: switched-capacitor, anti-alias and reconstruction filters, FIR and IIR (brief)
+Single-ended to differential
+Logic level shifting
+Scaling a signal into an ADC range
+Isolation amplifiers and isolated ADCs
+7. Detection and Rectification
+Rectifiers
 
-11. Impedance matching
-L-network, pi, T, quarter-wave transformer, single and double stub, multi-section binomial and Chebyshev, tapered line, wideband transformer, baluns (LC lattice, Marchand, transformer, coax)
+Half-wave, full-wave, and bridge rectifiers
+Precision rectifier (superdiode)
+Peak detector
+RF and envelope detectors
 
-12. Generating frequencies
+Diode envelope (AM) detector
+Schottky diode RF power detector
+Logarithmic detector (successive detection)
+RMS power detector
+Thermal power sensor
+Frequency and phase detectors
 
-Oscillators: Pierce crystal, Colpitts, Hartley, Clapp, VCO (varactor-tuned), ring, relaxation (555), RC phase-shift, Wien bridge, TCXO/OCXO/MEMS, DRO, YIG
-Synthesis: integer-N PLL, fractional-N PLL, DDS, frequency multiplier, divider/prescaler, clock buffer and fanout, jitter cleaner
+FM detectors: discriminator, quadrature detector, PLL
+Phase detectors: mixer, XOR, phase-frequency detector
+Sampling and timing detectors
 
-13. Mixing and frequency translation
-Single-diode mixer, single-balanced, double-balanced diode ring, Gilbert cell, passive FET mixer, IQ modulator and demodulator, image-reject (Hartley, Weaver), harmonic mixer, subsampling. Plus receiver architectures: superhet, direct conversion, low-IF, direct RF sampling.
+Sample-and-hold / track-and-hold
+Zero-crossing detector
+8. Op-Amp Circuits
+Inverting amplifier
+Non-inverting amplifier
+Voltage follower (buffer)
+Summing amplifier
+Difference amplifier
+Instrumentation amplifier
+Integrator
+Differentiator
+Comparator with hysteresis (Schmitt trigger)
+Rail splitter (virtual ground)
+Driving capacitive loads (isolation resistor)
+Fully differential amplifier
+Choosing an op-amp
+9. Discrete and Power Amplifiers
+Common-emitter (common-source) amplifier
+Common-base (common-gate) amplifier
+Common-collector (emitter follower) and source follower
+Cascode
+Differential pair
+Darlington and Sziklai pairs
+Push-pull output stage
+Biasing schemes
+Amplifier classes (A, B, AB, C, D)
+10. RF Amplifiers
+Specs that describe any RF amplifier
+Receive-side amplifiers
 
-14. RF routing and control
-PIN and FET switches, T/R switch, fixed attenuators (pi, T), digital step attenuator, voltage-variable attenuator, phase shifters, directional coupler, branch-line hybrid, rat-race, Lange coupler, Wilkinson and resistive dividers, circulator, isolator, limiter, DC block
+LNA with inductive source degeneration
+Common-gate (common-base) LNA
+MMIC gain block
+Resistive feedback amplifier
+Balanced amplifier
+Distributed (traveling-wave) amplifier
+Variable-gain amplifier and AGC
+Limiting amplifier
+Transmit-side amplifiers
 
-15. Sensing and measurement front ends
-Wheatstone bridge, strain gauge amp, thermistor divider, RTD, thermocouple amp, photodiode front end, piezo/charge sensing, capacitive sensing, lock-in amplifier
+Power amplifier classes
+Driver amplifier
+Doherty amplifier
+Biasing, stability, and linearization
 
-16. Digital and interface glue
-Pull-up and pull-down, open-drain, switch debounce (RC and Schmitt), Schmitt trigger, comparator with hysteresis, window comparator, relay driver with flyback diode, H-bridge, gate driver, optocoupler, digital isolator, ESD protection, I2C/SPI/UART/USB/CAN/RS-485 interface basics
+RF biasing: choke feed and active bias
+Stability and stabilizing networks
+Linearization: backoff, predistortion, feedforward, envelope tracking
+11. Filters
+Response types
 
-17. Timing and pulses
-555 astable and monostable, power-on reset, RC delay, edge detector, pulse stretcher, watchdog
+Butterworth, Chebyshev, elliptic, Bessel, and Gaussian
+Passive RC and simple filters
 
-18. Antennas and PCB RF structures
-Dipole, monopole, PIFA, patch, chip antenna, helical, loop, Yagi. Microstrip, CPWG, stripline, via fencing, ground stitching.
+RC low-pass
+RC high-pass (AC coupling)
+RC band-pass (high-pass then low-pass)
+Passive LC filters
 
+LC low-pass (pi and T ladders)
+LC high-pass
+LC band-pass (coupled resonators)
+LC band-stop (notch and trap)
+Active filters (op-amp)
+
+Sallen-Key (low-pass and high-pass)
+Multiple feedback (MFB)
+State-variable and biquad filters
+Twin-T notch
+All-pass (phase-shift) filter
+Gyrator (simulated inductor)
+Transmission-line and microwave filters
+
+Stepped-impedance low-pass
+Stub filters (Richards' transformation and Kuroda identities)
+Coupled-line, hairpin, interdigital, and combline band-pass
+Cavity and waveguide filters
+Acoustic and crystal resonator filters
+
+Crystal and ceramic filters
+SAW (surface acoustic wave) filters
+BAW and FBAR filters
+Multiplexers
+
+Diplexer, duplexer, and triplexer
+EMI and supply filters
+
+Ferrite beads
+Common-mode choke
+Feedthrough capacitors and filtered connectors
+Sampled and digital filters
+
+Switched-capacitor filters
+Anti-alias and reconstruction filters
+Digital filters: FIR, IIR, CIC
+12. Impedance Matching
+What are you matching for?
+Lumped-element networks
+
+L-network
+Pi and T networks
+Transmission-line matching
+
+Quarter-wave transformer
+Multi-section (binomial, Chebyshev) and tapered lines
+Single-stub and double-stub matching
+Transformers and baluns
+
+Wideband transformers
+Baluns (LC lattice, Marchand, transformer, coaxial)
+Other methods and tools
+
+Resistive (minimum-loss) pad
+Smith chart workflow and tools
+13. Generating Frequencies
+Phase noise and jitter (what makes a frequency source good)
+Oscillators
+
+Pierce crystal oscillator
+LC oscillators: Colpitts, Hartley, and Clapp
+Packaged reference oscillators: XO, VCXO, TCXO, OCXO, MEMS
+Voltage-controlled oscillator (VCO)
+Ring oscillator
+RC oscillators: phase-shift, Wien bridge, relaxation
+Dielectric resonator and YIG oscillators
+Synthesis and distribution
+
+Integer-N phase-locked loop (PLL)
+Fractional-N PLL
+Direct digital synthesis (DDS)
+Frequency multipliers
+Dividers and prescalers
+Clock buffers, fanout, and jitter cleaners
+14. Mixing and Frequency Translation
+Mixer specs
+Mixer circuits
+
+Single-diode mixer
+Single-balanced mixer
+Double-balanced diode-ring mixer
+Gilbert cell (active double-balanced mixer)
+Passive FET (switching) mixer
+IQ (quadrature) demodulator and modulator
+Image-reject mixers (Hartley and Weaver)
+Harmonic and subharmonic mixers
+Subsampling (bandpass sampling)
+Receiver architectures
+
+Superheterodyne receiver
+Direct-conversion (zero-IF) receiver
+Low-IF receiver
+Direct RF sampling
+Transmitter architectures
+15. RF Routing and Control
+Switches
+
+PIN diode switch
+FET / SOI switch ICs (SPDT, SP4T, SPnT)
+Transmit/receive (T/R) switch
+Attenuators
+
+Fixed attenuators (pi and T pads)
+Digital step attenuator (DSA)
+Voltage-variable attenuator (VVA)
+Splitting, combining, and coupling
+
+Wilkinson power divider
+Resistive power divider
+Directional coupler
+Branch-line
+Rat-race
+Lange coupler
+Non-reciprocal and protection devices
+
+Circulator and isolator
+RF limiter
+DC blocks and RF terminations
+16. Sensing and Measurement Front Ends
+Wheatstone bridge
+Thermistor divider
+RTD (2-, 3-, and 4-wire)
+Thermocouple amplifier with cold-junction compensation
+Capacitive sensing
+Kelvin (4-wire) resistance measurement
+Lock-in amplifier
+Chopper and auto-zero (zero-drift) amplifiers
+17. Signal Integrity and Board-Level Practice
+Biasing digital lines
+
+Pull-up and pull-down resistors
+Power integrity
+
+Decoupling (bypass) capacitors
+Bulk capacitance
+Protection at the connectors
+
+ESD protection
+Transmission lines and termination
+
+Controlled-impedance traces
+Series (source) termination
+Parallel, Thevenin, and AC termination
+Differential pairs
+Length matching and skew
+Grounding and layout
+
+Ground planes and return paths
+Split ground planes (vs. one unified plane)
+Via stitching and via fencing
+Crosstalk and spacing (3W rule)
+Guard rings and guard traces
+Kelvin (4-wire) connections
+Shielding cans
+Clock routing and spread spectrum
+Test points and probing
+18. Digital and Interface Glue
+Open-drain outputs and wired-AND
+Switch debouncing
+Schmitt trigger
+Window comparator
+Relay and inductive load driver
+H-bridge
+Gate drivers
+Optocouplers and digital isolators
+Serial bus physical layers
+GPIO expanders and shift registers
+LED drive
+19. Timing and Pulses
+555 timer (astable and monostable)
+Power-on reset
+RC delay
+Edge detector and pulse stretcher
+Watchdog timer
+Real-time clock (RTC)
+20. Antennas and PCB RF Structures
+Antenna specs and the link budget
+Wire and external antennas
+
+Dipole
+Monopole and whip (quarter-wave over ground)
+Helical antennas (normal mode and axial mode)
+Yagi-Uda and log-periodic
+PCB and compact antennas
+
+Inverted-F (IFA) and PIFA
+Chip antenna
+Patch (microstrip) antenna
+Loop antennas
+Antenna matching and keep-out rules
+PCB transmission lines and connectors
+
+Microstrip, coplanar waveguide (CPWG), and stripline
+RF connector launches (SMA, U.FL)
+PCB materials for RF
+
+
+Below each section header is also a table detailing circuits, usefulness, and when to use. Each entry gets exactly one row, in the order it appears in the chapter, and one verdict:
+
+Default: The usual choice for that job, use unless there are unique constrains.
+Good: A solid choice depending on the situation.
+Niche: Only for a specific case, nice to know, might never use.
+Know it: Often times an outdated circuit, but one that is useful for theory and interviews.
+Avoid: Bad, don't make the same mistakes as me.
+Always: Every board needs itm this one is mostly for board level design and usually one or two components.
+Reference: Not a circuit, usually a guide or process for design.
 
 As this project stand for more time, it will be periodically updated with LTspice simulations and similar implementations to act as a further guide to the reader. 
 In addition, I will take time to parse through the application notes and/or textbook chapters that I have found particularly useful and slowly integrate them into (Useful Referances)[Useful References].
